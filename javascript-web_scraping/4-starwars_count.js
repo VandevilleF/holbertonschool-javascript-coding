@@ -1,7 +1,6 @@
 #!/usr/bin/node
 
 const request = require('request');
-const WedgeAntilles = 'https://swapi-api.hbtn.io/api/people/18/';
 
 request(process.argv[2], function (err, reponse, body) {
   if (err) {
@@ -10,11 +9,13 @@ request(process.argv[2], function (err, reponse, body) {
     const movieName = JSON.parse(body).results;
     let count = 0;
 
-    movieName.forEach(function (film) {
-      if (film.characters.includes(WedgeAntilles)) {
-        count += 1;
+    for (const film of movieName) {
+      for (const chara of film.characters) {
+        if (chara.includes('/18/')) {
+          count++;
+        }
       }
-    });
+    }
     console.log(count);
   }
 });
