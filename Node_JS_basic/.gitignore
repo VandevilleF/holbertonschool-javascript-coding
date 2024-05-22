@@ -1,5 +1,6 @@
 *.csv
 *main.js
+*main_0.js
 package.json
 babel.config.js
 .eslintrc.js
