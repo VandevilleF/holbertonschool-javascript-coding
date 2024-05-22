@@ -1,8 +1,4 @@
-/**
- *displayMessage - Display message in STDOUT
- * @param {string} message message to display
- */
-
+/* eslint-disable no-undef */
 function displayMessage(message) {
   console.log(message);
 }
