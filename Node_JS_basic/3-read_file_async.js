@@ -21,7 +21,13 @@ function countStudents(path) {
       console.log(`Number of students: ${lines.length}`);
       console.log(`Number of students in CS: ${students.CS.length}. List: ${students.CS.join(', ')}`);
       console.log(`Number of students in SWE: ${students.SWE.length}. List: ${students.SWE.join(', ')}`);
-      resolve();
+
+      const infoStudents = {
+        studentsNumber: `Number of students: ${lines.length}`,
+        fieldCS: `Number of students in CS: ${students.CS.length}. List: ${students.CS.join(', ')}`,
+        fieldSWE: `Number of students in SWE: ${students.SWE.length}. List: ${students.SWE.join(', ')}`
+      };
+      resolve(infoStudents);
     });
   });
 }
