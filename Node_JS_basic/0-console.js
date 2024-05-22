@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 function displayMessage(message) {
   console.log(message);
 }
