@@ -7,7 +7,7 @@ function countStudents(path) {
     /* trim() supprime les espace blancs en début et fin de ligne */
     const lines = read.split('\n').filter((line) => line.trim() !== '');
     lines.shift();
-    const students = [];
+    const students = {};
 
     lines.forEach((line) => {
       const [firstname, lastname, age, field] = line.split(',');
