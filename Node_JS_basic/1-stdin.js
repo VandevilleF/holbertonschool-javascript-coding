@@ -1,7 +1,6 @@
-const { read } = require("fs");
-
 function readStdin() {
   process.stdin.setEncoding('utf8');
+
   console.log('Welcome to Holberton School, what is your name?');
   process.stdin.on('readable', function() {
     const read = process.stdin.read();
