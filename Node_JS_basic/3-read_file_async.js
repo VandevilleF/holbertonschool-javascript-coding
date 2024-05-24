@@ -1,35 +1,43 @@
-/* eslint-disable no-unused-vars */
-const fs = require('fs');
+const fs = require('fs').promises;
+
+function parseDataToObject(data) {
+  const lines = data.split('\n');
+  const result = {};
+
+  for (let i = 1; i < (lines.length - 1); i += 1) {
+    const [firstname, , , field] = lines[i].split(',');
+
+    if (field) {
+      if (!result[field]) { result[field] = []; }
+      result[field].push(firstname);
+    }
+  }
+
+  return result;
+}
 
 function countStudents(path) {
-  return new Promise((resolve, reject) => {
-    fs.readFile(path, 'utf8', (err, data) => {
-      if (err) {
-        reject(new Error('Cannot load the database'));
-      }
-      const lines = data.split('\n').filter((line) => line.trim() !== '');
-      lines.shift();
-      const students = {};
+  return fs.readFile(path, 'utf8')
+    .then((data) => {
+      const students = parseDataToObject(data);
 
-      lines.forEach((line) => {
-        const [firstname, lastname, age, field] = line.split(',');
-        if (!students[field]) {
-          students[field] = [];
-        }
-        students[field].push(firstname);
+      let totalStudents = 0;
+      Object.keys(students).forEach((key) => { totalStudents += students[key].length; });
+
+      let output = `Number of students: ${totalStudents}`;
+      console.log(output);
+
+      Object.keys(students).forEach((key) => {
+        const count = students[key].length;
+        const list = students[key].join(', ');
+        output += `\nNumber of students in ${key}: ${count}. List: ${list}`;
+        console.log(`Number of students in ${key}: ${count}. List: ${list}`);
       });
-      console.log(`Number of students: ${lines.length}`);
-      console.log(`Number of students in CS: ${students.CS.length}. List: ${students.CS.join(', ')}`);
-      console.log(`Number of students in SWE: ${students.SWE.length}. List: ${students.SWE.join(', ')}`);
-
-      const infoStudents = {
-        studentsNumber: `Number of students: ${lines.length}`,
-        fieldCS: `Number of students in CS: ${students.CS.length}. List: ${students.CS.join(', ')}`,
-        fieldSWE: `Number of students in SWE: ${students.SWE.length}. List: ${students.SWE.join(', ')}`
-      };
-      resolve(infoStudents);
+      return output.trim();
+    })
+    .catch(() => {
+      throw new Error('Cannot load the database');
     });
-  });
 }
 
 module.exports = countStudents;
